@@ -1,0 +1,85 @@
+from collections import deque
+
+# Function to find the position of the blank (zero) tile
+def find_blank(board):
+    for i in range(3):
+        for j in range(3):
+            if board[i][j] == 0:
+                return i, j
+
+# Function to generate possible moves from a given state
+def generate_moves(board):
+    moves = []
+    blank_row, blank_col = find_blank(board)
+    
+    # Define all possible moves: up, down, left, right
+    possible_moves = [
+        (1, 0), (-1, 0), (0, 1), (0, -1)
+    ]
+    
+    for dr, dc in possible_moves:
+        new_row, new_col = blank_row + dr, blank_col + dc
+        
+        # Check if the new position is within the board bounds
+        if 0 <= new_row < 3 and 0 <= new_col < 3:
+            new_board = [row[:] for row in board]  # Create a copy of the board
+            # Swap the blank tile with the adjacent tile
+            new_board[blank_row][blank_col], new_board[new_row][new_col] = new_board[new_row][new_col], new_board[blank_row][blank_col]
+            moves.append(new_board)
+    
+    return moves
+
+# Function to perform BFS to solve the puzzle
+def solve_puzzle(initial_state, goal_state):
+    visited = set()
+    queue = deque([(initial_state, [])])  # Queue of states and their respective paths
+    
+    while queue:
+        current_state, path = queue.popleft()
+        visited.add(tuple(map(tuple, current_state)))  # Convert the board to a hashable format
+        
+        if current_state == goal_state:
+            return path
+        
+        possible_moves = generate_moves(current_state)
+        
+        for move in possible_moves:
+            if tuple(map(tuple, move)) not in visited:
+                queue.append((move, path + [move]))  # Add the move to the path
+    
+    return None  # If no solution is found
+
+# Function to print the steps in matrix form
+def print_steps(solution_path):
+    if solution_path:
+        print("Steps to reach the goal:")
+        for step in solution_path:
+            print("-------------")
+            for row in step:
+                print("|", end=" ")
+                for val in row:
+                    if val == 0:
+                        print(" ", end=" | ")
+                    else:
+                        print(val, end=" | ")
+                print()
+            print("-------------")
+            print()
+    else:
+        print("No solution exists for this puzzle.")
+
+# Example
+initial = [
+    [1, 2, 3],
+    [4, 0, 5],
+    [6, 7, 8]
+]
+
+goal = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8]
+]
+
+solution_path = solve_puzzle(initial, goal)
+print_steps(solution_path)
