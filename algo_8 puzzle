@@ -1,0 +1,33 @@
+Algorithm for Solving 8-Puzzle Using BFS:
+Define the Puzzle Representation:
+
+Represent the puzzle state as a 3x3 matrix/grid.
+Define the initial and goal states.
+Create a Function to Generate Possible Moves:
+
+Define a function that generates all possible valid moves from a given state. This function will swap the empty tile (0) with its neighboring tiles (up, down, left, right).
+Implement BFS Algorithm:
+
+Initialize a queue to store states and their respective paths.
+Start with the initial state and enqueue it into the queue.
+While the queue is not empty:
+Dequeue a state from the front of the queue.
+Check if this state is the goal state. If yes, return the path to reach this state.
+Generate all possible moves from the current state.
+For each valid move:
+If the resulting state is not already visited:
+Enqueue this state into the queue along with the path to reach it.
+Mark this state as visited.
+Track Visited States:
+
+Maintain a set or dictionary to track visited states to avoid revisiting them.
+Output the Solution:
+
+If a solution is found, return the path to reach the goal state.
+If no solution is found after exploring all possible states, return no solution exists.
+Display or Output the Steps:
+
+Display the sequence of states along with the moves taken to reach the goal state.
+This algorithm utilizes BFS to systematically explore the states of the puzzle, finding the shortest path from the initial state to the goal state.
+
+Implementing this algorithm in code involves defining functions for generating moves, performing BFS search, and displaying the steps, as shown in the previous code examples.
